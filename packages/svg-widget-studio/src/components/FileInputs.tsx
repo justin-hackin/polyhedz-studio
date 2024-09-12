@@ -6,21 +6,21 @@ import { InvisibleTextFileInput } from './InvisibleTextFileInput';
 
 export const FileInputs = observer(() => {
   const workspaceStore = useWorkspaceMst();
-  const { openWidgetFileFlag, deactivateWidgetFilePicker } = workspaceStore.dialogManager;
+  const { dialogManager } = workspaceStore;
 
   const openWidgetInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (openWidgetFileFlag) {
+    if (dialogManager.openWidgetFileFlag) {
       openWidgetInputRef?.current?.click();
     }
-  }, [openWidgetFileFlag]);
+  }, [dialogManager.openWidgetFileFlag]);
 
   return (
     <InvisibleTextFileInput
       ref={openWidgetInputRef}
       changeHandler={(txt) => {
-        deactivateWidgetFilePicker();
+        dialogManager.deactivateWidgetFilePicker();
         workspaceStore.initializeWidgetFromSnapshot(JSON.parse(txt));
       }}
       accept={`.${WIDGET_EXT}`}
