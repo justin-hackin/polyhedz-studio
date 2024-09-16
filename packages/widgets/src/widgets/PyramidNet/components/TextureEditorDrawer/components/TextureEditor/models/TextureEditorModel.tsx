@@ -3,7 +3,9 @@ import fileDownload from 'js-file-download';
 import {
   fromSnapshot, getSnapshot, Model, model, modelAction, prop,
 } from 'mobx-keystone';
-import { action, computed, observable } from 'mobx';
+import {
+  action, computed, makeObservable, observable,
+} from 'mobx';
 import { RawPoint } from 'fluent-svg-path-ts';
 import { assertNotNullish, Dimensions, sliderProp } from 'svg-widget-studio';
 import { BoundaryModel } from './BoundaryModel';
@@ -24,7 +26,6 @@ import { extractCutHolesFromSvgString } from '../../../../../../../common/util/s
 import { PathFaceDecorationPatternModel } from '../../../../../models/PathFaceDecorationPatternModel';
 import { PatternInfo } from '@/widgets/PyramidNet/types';
 import { DEFAULT_SLIDER_STEP } from '@/common/constants';
-import { widgetModelCtx } from '@/widgets/PyramidNet/data';
 
 const DEFAULT_IS_POSITIVE = true;
 const DEFAULT_VIEW_SCALE = 0.7;
@@ -94,14 +95,14 @@ export class TextureEditorViewerModel extends Model({
   }
 }
 
-@model('TextureEditorModel')
-export class TextureEditorModel extends Model({
-}) {
-  @computed
-  get parentPyramidNetWidgetModel(): PyramidNetWidgetModel {
-    // this should only be instantiated if the widgetModel is
-    return widgetModelCtx.get(this) as PyramidNetWidgetModel;
+export class TextureEditorModel {
+  constructor(parentPyramidNetWidgetModel: PyramidNetWidgetModel) {
+    this.parentPyramidNetWidgetModel = parentPyramidNetWidgetModel;
+    makeObservable(this);
   }
+
+  @observable
+    parentPyramidNetWidgetModel: PyramidNetWidgetModel;
 
   @observable
     viewerModel = new TextureEditorViewerModel({});

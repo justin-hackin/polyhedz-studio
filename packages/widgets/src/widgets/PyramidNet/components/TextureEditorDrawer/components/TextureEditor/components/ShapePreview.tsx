@@ -12,7 +12,9 @@ import { TOUR_ELEMENT_CLASSES } from '../../../../../../../common/util/tour';
 import { PathFaceDecorationPatternModel } from '@/widgets/PyramidNet/models/PathFaceDecorationPatternModel';
 import { RawFaceDecorationModel } from '@/widgets/PyramidNet/models/RawFaceDecorationModel';
 import { ImageFaceDecorationPatternModel } from '@/widgets/PyramidNet/models/ImageFaceDecorationPatternModel';
-import { TextureSvgUnobserved } from './TextureArrangement/components/TextureSvg';
+import {
+  TextureSvgUnobserved,
+} from '@/widgets/PyramidNet/components/TextureEditorDrawer/components/TextureEditor/components/TextureArrangement/components/TextureSvg';
 
 const classes = {
   enterFullScreenButton: 'shape-preview__enter-full-screen-button',

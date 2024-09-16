@@ -62,7 +62,6 @@ import { getBoundedTexturePathD } from '../../../common/util/path-boolean';
 import { additionalFileMenuItemsFactory } from '../components/additionalFileMenuItemsFactory';
 import previewIcon from '../static/widget-preview.png';
 import { DEFAULT_SLIDER_STEP } from '@/common/constants';
-import { widgetModelCtx } from '@/widgets/PyramidNet/data';
 
 const PREFERENCES_LOCALSTORE_NAME = 'PyramidNetPreferencesModel';
 
@@ -101,10 +100,6 @@ export class PyramidNetWidgetModel extends WidgetModel({
   useDottedStroke: prop(false).withSetter(),
   baseScoreDashSpec: prop<DashPatternModel>(() => (new DashPatternModel({}))).withSetter(),
   interFaceScoreDashSpec: prop<DashPatternModel>(() => (new DashPatternModel({}))).withSetter(),
-  // this is cruft for snapshot persistence but model has no props
-  // could strip with custom toSnapshot fn
-  // here for context sharing only
-  textureEditor: prop<TextureEditorModel>(() => new TextureEditorModel({})),
 }) {
   @observable
     textureEditorOpen = false;
@@ -124,6 +119,9 @@ export class PyramidNetWidgetModel extends WidgetModel({
 
   @observable
     preferences = new PyramidNetPreferencesModel({});
+
+  @observable
+    textureEditor = new TextureEditorModel(this);
 
   testTabHandleFlapDepth = 2;
 
@@ -513,11 +511,6 @@ export class PyramidNetWidgetModel extends WidgetModel({
     return this.faceDecoration instanceof RawFaceDecorationModel
       ? this.faceDecoration.sourceFileName
       : this.faceDecoration?.pattern?.sourceFileName;
-  }
-
-  onInit() {
-    super.onInit();
-    widgetModelCtx.set(this, this);
   }
 
   onAttachedToRootStore() {
