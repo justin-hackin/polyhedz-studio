@@ -27,12 +27,13 @@ const TextureEditorRoot = styled(FullPageDiv)(({ theme }) => ({
 export const TextureEditor = observer(() => {
   const pyramidNetPluginStore = useSelectedStore<PyramidNetWidgetModel>();
   const { textureEditor, history } = pyramidNetPluginStore;
-  const { faceDecoration } = textureEditor ?? {};
+
+  const { faceDecoration } = textureEditor || {};
 
   const { width, height, ref } = useResizeDetector();
   useEffect(() => {
     if (width && height) {
-      textureEditor.setPlacementAreaDimensions({
+      textureEditor?.setPlacementAreaDimensions({
         width: width / 2,
         height,
       });

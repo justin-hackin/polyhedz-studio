@@ -29,7 +29,9 @@ import NumberFormat from 'react-number-format';
 import clsx from 'clsx';
 
 import { styled } from '@mui/styles';
-import { HistoryButtons, TweakableInput, useSelectedStore } from 'svg-widget-studio';
+import {
+  assertNotNullish, HistoryButtons, TweakableInput, useSelectedStore,
+} from 'svg-widget-studio';
 import { SnapMenu } from './components/SnapMenu';
 import { resolveImageDimensionsFromBase64, toBase64 } from '../../../../../../../../common/util/data';
 import { TOUR_ELEMENT_CLASSES } from '../../../../../../../../common/util/tour';
@@ -39,6 +41,7 @@ import { ImageFaceDecorationPatternModel } from '../../../../../../models/ImageF
 import { ShapeSelect } from '../../../../../ShapeSelect';
 import { PathFaceDecorationPatternModel } from '../../../../../../models/PathFaceDecorationPatternModel';
 import { PositionableFaceDecorationModel } from '../../../../../../models/PositionableFaceDecorationModel';
+import { JoyrideTour } from '@/widgets/index';
 
 // @ts-ignore
 const NumberFormatDecimalDegrees = forwardRef(({ onChange, ...other }, ref) => (
@@ -126,6 +129,7 @@ const OpenTextureArrangementMenuItem = forwardRef<any, OpenTextureArrangementMen
 export const TextureControls = observer(() => {
   const widgetModel = useSelectedStore<PyramidNetWidgetModel>();
   const { textureEditor, preferences, history } = widgetModel;
+  assertNotNullish(textureEditor);
   const {
     faceDecoration,
     showNodes,
@@ -158,6 +162,7 @@ export const TextureControls = observer(() => {
   // TODO: add whitespace, improve button definition and input alignment
   return (
     <TextureEditorAppBar position="relative">
+      <JoyrideTour />
       <Toolbar
         className={clsx(classes.toolbar, faceDecoration && classes.toolbarWithTexture)}
         variant="dense"
@@ -167,7 +172,7 @@ export const TextureControls = observer(() => {
           component="span"
           size="large"
           onClick={() => {
-            window.history.back();
+            widgetModel.setTextureEditorOpen(false);
           }}
         >
           <ArrowForwardIcon fontSize="large" />
@@ -303,7 +308,7 @@ export const TextureControls = observer(() => {
                   label="Node selection"
                 />
                 <TweakableInput
-                  node={widgetModel.textureEditor.viewerModel.nodeScaleMux}
+                  node={textureEditor.viewerModel.nodeScaleMux}
                   className={classes.nodeScaleMuxSlider}
                 />
               </span>

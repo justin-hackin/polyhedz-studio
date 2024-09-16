@@ -185,6 +185,11 @@ export class WorkspaceModel extends Model({
   @modelAction
   applySpecSnapshot(persistedSpecSnapshot: SnapshotInOfModel<any>) {
     assertNotNullish(this.selectedStore);
+    // here to support legacy format with cruft data on property
+    // TODO: remove
+    if (persistedSpecSnapshot?.textureEditor) {
+      delete persistedSpecSnapshot.textureEditor;
+    }
     applySnapshot(this.selectedStore, persistedSpecSnapshot);
   }
 

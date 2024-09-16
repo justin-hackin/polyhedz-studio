@@ -6,7 +6,7 @@ import { IconButton } from '@mui/material';
 import { styled } from '@mui/styles';
 import clsx from 'clsx';
 import ReactDOMServer from 'react-dom/server';
-import { boundingBoxAttrsToViewBoxStr, useWorkspaceMst } from 'svg-widget-studio';
+import { assertNotNullish, boundingBoxAttrsToViewBoxStr, useWorkspaceMst } from 'svg-widget-studio';
 import type { PyramidNetWidgetModel } from '../../../../../models/PyramidNetWidgetStore';
 import { TOUR_ELEMENT_CLASSES } from '../../../../../../../common/util/tour';
 import { PathFaceDecorationPatternModel } from '@/widgets/PyramidNet/models/PathFaceDecorationPatternModel';
@@ -35,6 +35,7 @@ export const ShapePreview = observer(() => {
   const workspaceStore = useWorkspaceMst();
 
   const { textureEditor } = workspaceStore.selectedStore as unknown as PyramidNetWidgetModel;
+  assertNotNullish(textureEditor);
   const { shapePreview } = textureEditor;
   const decorationPattern = textureEditor.faceDecoration?.pattern;
   const shapeNameVal = textureEditor.shapeName.value;
@@ -83,6 +84,7 @@ export const ShapePreview = observer(() => {
     );
     shapePreview?.applyTextureToMesh(svgStr, boundingBoxAttrs);
   }, (() => {
+    // TODO: fix warnings about this array size changing
     const { faceDecoration, faceBoundary } = textureEditor;
     const listenProps:any[] = [shapePreview?.shapeMesh, faceBoundary];
     if (!faceDecoration || faceDecoration instanceof RawFaceDecorationModel) { return listenProps; }

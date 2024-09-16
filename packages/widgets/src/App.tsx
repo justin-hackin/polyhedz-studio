@@ -4,13 +4,11 @@ import { WidgetRoute } from 'svg-widget-studio/src/components/WidgetRoute';
 import { POLYHEDRAL_NET_MODEL_TYPE } from '@/widgets/PyramidNet/models/PyramidNetWidgetStore';
 import { FileInputs } from '@/widgets/PyramidNet/components/FileInputs';
 import { TextureEditorDrawer } from '@/widgets/PyramidNet/components/TextureEditorDrawer/index';
-import { JoyrideTour } from '@/widgets/index';
 
 export function App() {
   return (
     <WidgetWorkspaceProvider>
       <WidgetRoute widgetName={POLYHEDRAL_NET_MODEL_TYPE}>
-        <JoyrideTour />
         <FileInputs />
         <TextureEditorDrawer />
       </WidgetRoute>

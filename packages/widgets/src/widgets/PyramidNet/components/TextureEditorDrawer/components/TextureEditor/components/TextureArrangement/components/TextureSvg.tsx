@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { HookReturnType, UseDragConfig } from 'react-use-gesture/dist/types';
 import { RawPoint } from 'fluent-svg-path-ts';
-import { useSelectedStore } from 'svg-widget-studio';
+import { assertNotNullish, useSelectedStore } from 'svg-widget-studio';
 import { scalePoint } from '../../../../../../../../../common/util/geom';
 import { TexturePathNodes } from './TexturePathNodes';
 import type { PyramidNetWidgetModel } from '../../../../../../../models/PyramidNetWidgetStore';
@@ -29,13 +29,21 @@ export function TextureSvgUnobserved({
   store?: TextureEditorModel,
 }) {
   // must avoid calling useMst (hooks) when using server-side rendering (results in errors about useLayoutEffect)
+  const selectedTextureEditor = (useSelectedStore<PyramidNetWidgetModel>()).textureEditor;
+  let targetStore;
+  if (store) {
+    targetStore = store;
+  } else {
+    assertNotNullish(selectedTextureEditor);
+    targetStore = selectedTextureEditor;
+  }
   const {
     decorationBoundary: { pathD: decorationBoundaryPathD = '' } = {},
     faceDecoration,
     faceBoundary,
     faceFittingScale,
     placementAreaDimensions,
-  } = store || (useSelectedStore<PyramidNetWidgetModel>()).textureEditor;
+  } = targetStore;
   if (
     !decorationBoundaryPathD || faceDecoration instanceof RawFaceDecorationModel
     || !faceBoundary || !decorationBoundaryPathD || !placementAreaDimensions || !faceFittingScale

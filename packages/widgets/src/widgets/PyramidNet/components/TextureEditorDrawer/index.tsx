@@ -15,17 +15,18 @@ const DrawerStyled = styled(Drawer)({
     zIndex: 101,
   },
 });
-
+export const TEXTURE_EDITOR_DRAWER_TRANSITION_MS = 500;
 export const TextureEditorDrawer = observer(() => {
   const workspaceStore = useWorkspaceMst();
   const pyramidNetPluginStore = workspaceStore.selectedStore as unknown as PyramidNetWidgetModel;
   if (!pyramidNetPluginStore) { return null; }
+
   return (
     <DrawerStyled
       anchor="right"
       variant="persistent"
       open={pyramidNetPluginStore.textureEditorOpen}
-      transitionDuration={500}
+      transitionDuration={TEXTURE_EDITOR_DRAWER_TRANSITION_MS}
     >
       <TextureEditor />
     </DrawerStyled>

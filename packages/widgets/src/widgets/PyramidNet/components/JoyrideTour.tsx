@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { useSelectedStore } from 'svg-widget-studio';
+import { assertNotNullish, useSelectedStore } from 'svg-widget-studio';
 import { useTheme } from '@mui/styles';
 import React, { useMemo, useState } from 'react';
 import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
@@ -21,6 +21,7 @@ export const JoyrideTour = observer(() => {
     textureEditor,
     history,
   } = pyramidNetPluginStore;
+  assertNotNullish(textureEditor);
   const { tourIsActive } = preferences ?? {};
   const theme = useTheme();
   const [stepIndex, setStepIndex] = useState<number>(0);

@@ -18,6 +18,7 @@ export const TextureArrangement = observer(() => {
   const workspaceStore = useWorkspaceMst();
   const pyramidNetPluginStore = workspaceStore.selectedStore as unknown as PyramidNetWidgetModel;
   const { textureEditor } = pyramidNetPluginStore;
+  assertNotNullish(textureEditor);
   const {
     faceDecoration,
     placementAreaDimensions,

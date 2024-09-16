@@ -62,6 +62,7 @@ import { getBoundedTexturePathD } from '../../../common/util/path-boolean';
 import { additionalFileMenuItemsFactory } from '../components/additionalFileMenuItemsFactory';
 import previewIcon from '../static/widget-preview.png';
 import { DEFAULT_SLIDER_STEP } from '@/common/constants';
+import { TEXTURE_EDITOR_DRAWER_TRANSITION_MS } from '@/widgets/PyramidNet/components/TextureEditorDrawer/index';
 
 const PREFERENCES_LOCALSTORE_NAME = 'PyramidNetPreferencesModel';
 
@@ -121,7 +122,7 @@ export class PyramidNetWidgetModel extends WidgetModel({
     preferences = new PyramidNetPreferencesModel({});
 
   @observable
-    textureEditor = new TextureEditorModel(this);
+    textureEditor?: TextureEditorModel;
 
   testTabHandleFlapDepth = 2;
 
@@ -525,7 +526,16 @@ export class PyramidNetWidgetModel extends WidgetModel({
         // all geometries have 1 as option, but different shapes have different divisors > 1
         this.pyramid.netsPerPyramid.setValue(1);
         this.applyShapeBasedDefaults();
-        this.textureEditor.refitTextureToFace();
+        this?.textureEditor?.refitTextureToFace();
+      }),
+      reaction(() => [this.textureEditorOpen], () => {
+        if (this.textureEditorOpen) {
+          this.textureEditor = new TextureEditorModel(this);
+        } else {
+          setTimeout(() => {
+            this.textureEditor = undefined;
+          }, TEXTURE_EDITOR_DRAWER_TRANSITION_MS);
+        }
       }),
     ];
 
@@ -592,7 +602,7 @@ export class PyramidNetWidgetModel extends WidgetModel({
 
   @action
   setTextureEditorOpen(isOpen) {
-    if (this.faceDecoration instanceof RawFaceDecorationModel) {
+    if (isOpen && this.faceDecoration instanceof RawFaceDecorationModel) {
       // texture editor directly references faceDecoration and will not render TextureSvg if it is Raw
       this.resetFaceDecoration();
     }

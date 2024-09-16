@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import clsx from 'clsx';
 import { styled } from '@mui/styles';
 import { getDestinationPoints, PathData } from 'fluent-svg-path-ts';
-import { useSelectedStore } from 'svg-widget-studio';
+import { assertNotNullish, useSelectedStore } from 'svg-widget-studio';
 import type { PyramidNetWidgetModel } from '../../../../../../../models/PyramidNetWidgetStore';
 import { ImageFaceDecorationPatternModel } from '../../../../../../../models/ImageFaceDecorationPatternModel';
 import { RawFaceDecorationModel } from '../../../../../../../models/RawFaceDecorationModel';
@@ -30,6 +30,7 @@ const NodesGroup = styled('g')({
 export const TexturePathNodes = observer(() => {
   const selectedStore = useSelectedStore<PyramidNetWidgetModel>();
   const { textureEditor } = selectedStore;
+  assertNotNullish(textureEditor);
   const {
     faceDecoration, selectedTextureNodeIndex, showNodes, imageCoverScale, viewerModel,
   } = textureEditor;

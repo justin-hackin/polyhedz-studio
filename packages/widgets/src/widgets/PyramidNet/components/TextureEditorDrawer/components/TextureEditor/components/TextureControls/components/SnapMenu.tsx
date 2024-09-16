@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { observer } from 'mobx-react';
 import { range } from 'lodash-es';
-import { useSelectedStore } from 'svg-widget-studio';
+import { assertNotNullish, useSelectedStore } from 'svg-widget-studio';
 import type { PyramidNetWidgetModel } from '../../../../../../../models/PyramidNetWidgetStore';
 import { TOUR_ELEMENT_CLASSES } from '../../../../../../../../../common/util/tour';
 
@@ -15,7 +15,7 @@ export const SnapMenu = observer(() => {
 
   const widgetModel = useSelectedStore<PyramidNetWidgetModel>();
   const { textureEditor } = widgetModel;
-
+  assertNotNullish(textureEditor);
   const {
     faceDecoration, decorationBoundary,
     selectedTextureNodeIndex, showNodes,

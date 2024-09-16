@@ -25,7 +25,7 @@ export const FileInputs = observer(() => {
     <InvisibleTextFileInput
       ref={openTextureInputRef}
       changeHandler={(fileString) => {
-        textureEditor.deactivateImportTextureArrangementDialog();
+        textureEditor?.deactivateImportTextureArrangementDialog();
         const currentShapeName = widgetStore.pyramid.shapeName.value;
 
         const fileData = JSON.parse(fileString);

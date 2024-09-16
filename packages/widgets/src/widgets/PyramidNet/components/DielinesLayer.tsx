@@ -30,7 +30,7 @@ export const DielinesLayer = observer(({
     return null;
   }
   const {
-    textureEditor: { faceDecoration },
+    textureEditor: { faceDecoration } = {},
     boundingBox,
     faceLengthAdjustRatio,
     masterBaseTabCut,
