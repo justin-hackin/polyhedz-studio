@@ -3,7 +3,7 @@ import {
   Model, model, modelAction, prop,
 } from 'mobx-keystone';
 
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { getBoundingBoxAttrs, getDestinationPoints, PathData } from 'fluent-svg-path-ts';
 import { Dimensions, getNearestHistoryFromAncestorNode } from 'svg-widget-studio';
 import {
@@ -104,8 +104,10 @@ export class PositionableFaceDecorationModel extends Model({
 
   @modelAction
   reconcileScaleDiff() {
-    this.transform.scale *= this.transformDiff.scale;
-    this.transformDiff.setScale(1);
+    this.parentHistoryManager.withGroup(() => {
+      this.transform.scale *= this.transformDiff.scale;
+      this.transformDiff.setScale(1);
+    });
   }
 
   @modelAction
@@ -117,8 +119,10 @@ export class PositionableFaceDecorationModel extends Model({
 
   @modelAction
   reconcileTranslateDiff() {
-    this.transform.setTranslate(sumPoints(this.transform.translate, this.transformDiff.translate));
-    this.transformDiff.setTranslate(getOriginPoint());
+    this.parentHistoryManager.withGroup(() => {
+      this.transform.setTranslate(sumPoints(this.transform.translate, this.transformDiff.translate));
+      this.transformDiff.setTranslate(getOriginPoint());
+    });
   }
 
   @modelAction
@@ -128,10 +132,12 @@ export class PositionableFaceDecorationModel extends Model({
     });
   }
 
-  @modelAction
+  @action
   reconcileRotateDiff() {
-    this.transform.setRotate(wrapDegrees(this.transform.rotate + this.transformDiff.rotate));
-    this.transformDiff.setRotate(0);
+    this.parentHistoryManager.withGroup(() => {
+      this.transform.setRotate(wrapDegrees(this.transform.rotate + this.transformDiff.rotate));
+      this.transformDiff.setRotate(0.0);
+    });
   }
 
   @modelAction
@@ -150,8 +156,11 @@ export class PositionableFaceDecorationModel extends Model({
       this.rotateDragged,
       this.translateDragged,
     );
-    this.transform.setTransformOrigin(this.transformOriginDragged);
-    this.transform.setTranslate(sumPoints(this.transform.translate, scalePoint(relativeDifference, -1)));
-    this.transformDiff.setTransformOrigin(getOriginPoint());
+
+    this.parentHistoryManager.withGroup(() => {
+      this.transform.setTransformOrigin(this.transformOriginDragged);
+      this.transform.setTranslate(sumPoints(this.transform.translate, scalePoint(relativeDifference, -1)));
+      this.transformDiff.setTransformOrigin(getOriginPoint());
+    });
   }
 }

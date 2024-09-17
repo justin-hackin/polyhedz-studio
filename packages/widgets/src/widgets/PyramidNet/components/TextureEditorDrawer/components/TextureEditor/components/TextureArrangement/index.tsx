@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDrag, useGesture } from 'react-use-gesture';
+import { useDrag, useGesture } from '@use-gesture/react';
 import { clamp } from 'lodash-es';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -76,7 +76,7 @@ export const TextureArrangement = observer(() => {
         faceDecoration.setRotateDiff((movementPt.y / placementAreaDimensions.height) * 360);
       } else {
         faceDecoration.reconcileRotateDiff();
-        incrementTransformTracking(TRANSFORM_METHODS.DRAG, TRANSFORM_OPERATIONS.ROTATE_TEXTURE);
+        // incrementTransformTracking(TRANSFORM_METHODS.DRAG, TRANSFORM_OPERATIONS.ROTATE_TEXTURE);
       }
     } else if (dragMode === DRAG_MODES.SCALE_TEXTURE) {
       if (down) {

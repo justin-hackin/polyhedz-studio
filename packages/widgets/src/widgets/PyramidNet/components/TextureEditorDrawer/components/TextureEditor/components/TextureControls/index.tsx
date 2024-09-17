@@ -4,18 +4,15 @@ import {
   Divider,
   FormControlLabel,
   IconButton,
-  InputAdornment,
   ListItemIcon,
   Menu,
   MenuItem,
   Switch,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react';
-import CachedIcon from '@mui/icons-material/Cached';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -24,7 +21,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import PublishIcon from '@mui/icons-material/Publish';
 import FilePicker from '@mavedev/react-file-picker';
 import HelpIcon from '@mui/icons-material/Help';
-import { isNaN, isNumber } from 'lodash-es';
 import NumberFormat from 'react-number-format';
 import clsx from 'clsx';
 
@@ -344,31 +340,31 @@ export const TextureControls = observer(() => {
               />
             </>
             )}
-
-            <TextField
-              className={clsx(classes.rotationInput, TOUR_ELEMENT_CLASSES.ROTATE_INPUT)}
-              label="Rotate"
-              value={faceDecoration.transform.rotate}
-              onChange={({ target: { value } = {} }) => {
-              // TODO: use onKeyPress for enter submission
-              // https://github.com/mui-org/material-ui/issues/5393#issuecomment-304707345
-              // TODO: once above is fixed, use textureRotateDragged as value
-                const numVal = +!value;
-                if (isNumber(numVal) && !isNaN(numVal)) {
-                  faceDecoration.transform.setRotate(numVal);
-                }
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CachedIcon />
-                  </InputAdornment>
-                ),
-                // @ts-ignore
-                inputComponent: NumberFormatDecimalDegrees,
-              }}
-              variant="filled"
-            />
+            {/* TODO: why does this break rotation reconciliation? */}
+            {/* <TextField */}
+            {/*   className={clsx(classes.rotationInput, TOUR_ELEMENT_CLASSES.ROTATE_INPUT)} */}
+            {/*   label="Rotate" */}
+            {/*   value={faceDecoration.transform.rotate} */}
+            {/*   onChange={({ target: { value } = {} }) => { */}
+            {/*   // TODO: use onKeyPress for enter submission */}
+            {/*   // https://github.com/mui-org/material-ui/issues/5393#issuecomment-304707345 */}
+            {/*   // TODO: once above is fixed, use textureRotateDragged as value */}
+            {/*     const numVal = +!value; */}
+            {/*     if (isNumber(numVal) && !isNaN(numVal)) { */}
+            {/*       faceDecoration.transform.setRotate(numVal); */}
+            {/*     } */}
+            {/*   }} */}
+            {/*   InputProps={{ */}
+            {/*     startAdornment: ( */}
+            {/*       <InputAdornment position="start"> */}
+            {/*         <CachedIcon /> */}
+            {/*       </InputAdornment> */}
+            {/*     ), */}
+            {/*     // @ts-ignore */}
+            {/*     inputComponent: NumberFormatDecimalDegrees, */}
+            {/*   }} */}
+            {/*   variant="filled" */}
+            {/* /> */}
           </>
         )}
         <IconButton
