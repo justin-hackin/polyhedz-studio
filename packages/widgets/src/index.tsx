@@ -4,14 +4,18 @@ import './widgets';
 import { workspaceStore } from 'svg-widget-studio';
 import { connectReduxDevTools } from 'mobx-keystone';
 import * as mobx from 'mobx';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import remotedev from 'remotedev';
+import { disableContextMenu } from 'disable-context-menu';
 import { App } from '@/App';
 
 render(
   (<App />),
   document.getElementById('app'),
 );
+
+disableContextMenu();
 
 if (import.meta.env.MODE === 'development') {
   // needed for mobx-prettier chrome extension

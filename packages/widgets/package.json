@@ -54,6 +54,7 @@
     "@types/react-dom": "^17.0.9",
     "canvg": "^3.0.6",
     "clsx": "^1.1.1",
+    "disable-context-menu": "^1.0.1",
     "fluent-svg-path-ts": "*",
     "js-file-download": "^0.4.12",
     "lodash-es": "^4.17.21",
